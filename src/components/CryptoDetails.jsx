@@ -6,6 +6,7 @@ import { Col, Row, Typography, Select} from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 import { useGetCryptoDetailsQuery } from '../services/cryptoApi';
+import TimelineItem from 'antd/lib/timeline/TimelineItem';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -37,9 +38,26 @@ const CryptoDetail = () => {
   
 
   return (
-    <div>
-        CryptoDetail {coinId}
-    </div>
+    <Col className='coin-detail-container'>
+      <Col className="coin-heading-container">
+        <Title level={2} className="coin-name">
+          {cryptoDetails.name} ({cryptoDetails.symbol}) Price
+        </Title>
+        <p>
+          {cryptoDetails.name} live price in US Dollar (USD).
+          View value statistics, market cap and supply.
+        </p>
+      </Col>
+      <Select 
+        defaultValue='7d' 
+        className='select-timeperiod'
+        placeholder='Select Time Period'
+        onChange={(value) => setTimePeriod(value)}    
+      >
+        {time.map((date) => <Option key={date}>{date}</Option>)}
+      </Select>
+      {/* linie chart */}
+    </Col>
   )
 }
 
