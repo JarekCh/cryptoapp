@@ -12,13 +12,15 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const CryptoDetail = () => {
-  const { coinId } = useParams();
+  let { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState('7d');
-  const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
+  const { data, isFetching } = useGetCryptoDetailsQuery(coinId);    
+  console.log("🚀 ~ file: CryptoDetails.jsx ~ line 18 ~ CryptoDetail ~ data", data)
   const cryptoDetails = data?.data?.coin;
   
   const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
 
+  // TODO: solve problem with 24h Volume, direct key 24hVolume cant pass key with 24 in name
   const stats = [
     { title: 'Price to USD', value: `$ ${cryptoDetails?.price && millify(cryptoDetails?.price)}`, icon: <DollarCircleOutlined /> },
     { title: 'Rank', value: cryptoDetails?.rank, icon: <NumberOutlined /> },
@@ -26,7 +28,7 @@ const CryptoDetail = () => {
     { title: 'Market Cap', value: `$ ${cryptoDetails?.marketCap && millify(cryptoDetails?.marketCap)}`, icon: <DollarCircleOutlined /> },
     { title: 'All-time-high(daily avg.)', value: `$ ${cryptoDetails?.allTimeHigh?.price && millify(cryptoDetails?.allTimeHigh?.price)}`, icon: <TrophyOutlined /> },
   ];
-
+  
   const genericStats = [
     { title: 'Number Of Markets', value: cryptoDetails?.numberOfMarkets, icon: <FundOutlined /> },
     { title: 'Number Of Exchanges', value: cryptoDetails?.numberOfExchanges, icon: <MoneyCollectOutlined /> },
@@ -70,8 +72,7 @@ const CryptoDetail = () => {
             </Col>
           ))}
         </Col>
-      </Col>
-      <Col className="other-stats-info">
+        <Col className="other-stats-info">
           <Col className="coin-value-statistics-heading">
             <Title level={3} className="coin-details-heading">Other Stats Info</Title>
             <p>An overview showing the statistics of {cryptoDetails.name}, such as the base and quote currency, the rank, and trading volume.</p>
@@ -86,6 +87,7 @@ const CryptoDetail = () => {
             </Col>
           ))}
         </Col>
+      </Col>
     </Col>
 
   )
