@@ -7,6 +7,7 @@ import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCi
 
 import { useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } from '../services/cryptoApi';
 import LineChart from './LineChart';
+import Loader from './Loader';
 
 
 const { Title, Text } = Typography;
@@ -17,18 +18,19 @@ const CryptoDetail = () => {
   const [timePeriod, setTimeperiod] = useState('7d');
 
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);   
+  console.log("🚀 ~ file: CryptoDetails.jsx ~ line 21 ~ CryptoDetail ~ data", data)
   const { data: coinHistory } = useGetCryptoHistoryQuery({coinId, timePeriod});   
   const cryptoDetails = data?.data?.coin;
 
-  if(isFetching) return 'Loading....'
+  if(isFetching) return <Loader />;
   
   const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
 
-  // TODO: solve problem with 24h Volume, direct key 24hVolume cant pass key with 24 in name
+  
   const stats = [
     { title: 'Price to USD', value: `$ ${cryptoDetails?.price && millify(cryptoDetails?.price)}`, icon: <DollarCircleOutlined /> },
     { title: 'Rank', value: cryptoDetails?.rank, icon: <NumberOutlined /> },
-    { title: '24h Volume', value: `$ ${cryptoDetails?.volume && millify(cryptoDetails?.volume)}`, icon: <ThunderboltOutlined /> },
+    { title: '24h Volume', value: `$ ${cryptoDetails?._24hVolume && millify(cryptoDetails?.volume)}`, icon: <ThunderboltOutlined /> },
     { title: 'Market Cap', value: `$ ${cryptoDetails?.marketCap && millify(cryptoDetails?.marketCap)}`, icon: <DollarCircleOutlined /> },
     { title: 'All-time-high(daily avg.)', value: `$ ${cryptoDetails?.allTimeHigh?.price && millify(cryptoDetails?.allTimeHigh?.price)}`, icon: <TrophyOutlined /> },
   ];
