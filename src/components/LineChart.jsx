@@ -8,7 +8,6 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
 
     const coinPrice =[];
     const coinTimestamp = [];
-    console.log("🚀 ~ file: LineChart.jsx ~ line 11 ~ LineChart ~ coinTimestamp", coinTimestamp)
     
 
     for (let i = 0; i < coinHistory?.data?.history?.length; i++) {
